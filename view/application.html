@@ -1,0 +1,67 @@
+<div class=" login-screen login-form">
+
+    <h3>Кредитний скоринг за Д. Дюраном</h3>
+    <table>
+        <tr>
+            <td class="title">ПІБ</td>
+            <td><input type="text" class="base-in" placeholder="ПІБ" id="client" ng-model="client.name">
+            </td>
+        </tr>
+        <tr>
+            <td class="title">Дата народження</td>
+            <td><input type="date" class="base-in" placeholder="dateBirthday" id="date" ng-model="client.dateBirthday">
+            </td>
+        </tr>
+        <tr>
+            <td class="title">Стать</td>
+            <td>
+                <input type="radio" id="radio1" name="sex" value="Man" ng-model="client.sex">
+                <label for="radio1">Чоловік</label>
+                <input type="radio" id="radio2" name="sex" value="Woman" ng-model="client.sex">
+                <label for="radio2">Жінка</label>
+            </td>
+        </tr>
+        <tr>
+            <td class="title">Професія </td>
+            <td>
+                <select class="base-in" name="prof" id="prof"
+                        ng-options="option.name for option in professions track by option"
+                        ng-model="client.prof"></select>
+            </td>
+        </tr>
+        <tr>
+            <td class="title">Стаж (в роках)</td>
+            <td><input type="number" class="base-in" placeholder="0" ng-model="client.experience"></td>
+        </tr>
+        <tr>
+            <td class="title">Чи є у Вас банківський рахунок?</td>
+            <td>
+                <input type="radio" id="bankAcc" name="hasBankAcc" value=1 ng-model="client.hasBankAcc">
+                <label for="bankAcc">Так</label>
+                <input type="radio" id="bankAcc1" name="hasBankAcc" value=0 ng-model="client.hasBankAcc" checked>
+                <label for="bankAcc1">Ні </label>
+            </td>
+        </tr>
+        <tr>
+            <td class="title">Чи володієте Ви нерухомістю?</td>
+            <td>
+                <input type="radio" id="hasRealty" name="hasRealty" value=1 ng-model="client.hasRealty">
+                <label for="hasRealty">Так</label>
+                <input type="radio" id="hasRealty1" name="hasRealty" value=0 ng-model="client.hasRealty" checked>
+                <label for="hasRealty1">Ні </label>
+            </td>
+        </tr>
+        <tr>
+            <td class="title">Є у Вас поліс страхування життя?</td>
+            <td>
+                <input type="radio" id="hasInsurance" name="hasInsurance" value=1 ng-model="client.hasInsurance">
+                <label for="hasInsurance">Так</label>
+                <input type="radio" id="hasInsurance1" name="hasInsurance" value=0 ng-model="client.hasInsurance" checked>
+                <label for="hasInsurance1">Ні </label>
+            </td>
+        </tr>
+
+
+    </table>
+    <a class="btn btn-primary btn-large btn-block" ng-click="check(client)">Перевірити кредитну спроможність</a>
+</div>

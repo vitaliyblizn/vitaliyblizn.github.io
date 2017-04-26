@@ -1,0 +1,10 @@
+<div class=" login-screen login-form">
+
+    <h3>Кредитний скоринг за Д. Дюраном</h3>
+    <div>Клієнт {{client.name}}
+        <div style="display: inline" ng-if="client.solvency>1.25"> кредитоспроможний</div>
+        <div style="display: inline" ng-if="client.solvency<1.25"> некредитоспроможний</div>
+        (Коєфіцієнт ={{client.solvency}})
+    </div>
+
+</div>
