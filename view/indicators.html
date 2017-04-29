@@ -1,0 +1,35 @@
+<form name="myForm" class=" login-screen login-form">
+
+    <h3>Кредитний скоринг</h3>
+    <table>
+        <tr>
+            <td class="title">ПІБ</td>
+            <td><input type="text" class="base-in" placeholder="ПІБ"  id="client" ng-model="client.name">
+            </td>
+        </tr>
+        <tr>
+            <td class="title">Дата народження</td>
+            <td><input type="date" class="base-in" placeholder="dateBirthday" id="date" ng-model="client.dateBirthday">
+            </td>
+        </tr>
+        <tr>
+            <td class="title">Стать</td>
+            <td>
+                <input type="radio" id="radio1" name="sex" value="Man" ng-model="client.sex">
+                <label for="radio1">Чоловік</label>
+                <input type="radio" id="radio2" name="sex" value="Woman" ng-model="client.sex">
+                <label for="radio2">Жінка</label>
+            </td>
+        </tr>
+        <tr ng-repeat="indicator in client.indicators">
+            <td class="title">{{indicator.name}}<td>
+                <select class="base-in" name="indicator"
+                        ng-options="variant.name for variant in indicator.variants"
+                        ng-model="indicator.chosen" required></select>
+            </td>
+        </tr>
+    </table>
+    <span class="error" ng-show="myForm.$invalid">Required!</span><br>
+    <span class="error" ng-show="myForm.indicator.$error.required">Required indicator!</span><br>
+    <a class="btn btn-primary btn-large btn-block" ng-click="checkIndicators(client)">Перевірити кредитну спроможність</a>
+</form>
