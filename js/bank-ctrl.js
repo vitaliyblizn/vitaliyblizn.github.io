@@ -26,6 +26,10 @@ angular.module('myApp')
         initAppIndicators();
         initDefaultClientInfo();
 
+
+
+
+
         $scope.checkDuran = function (client) {
             var result = 0;
             client.age = calculateAge(client.dateBirthday);
@@ -42,9 +46,14 @@ angular.module('myApp')
             if(client.hasBankAcc) result += coef.hasBankAcc;
             if(client.hasRealty) result += coef.hasRealty;
             if(client.hasInsurance) result += coef.hasInsurance;
+            client.solvency = {};
             client.solvency.result = result;
             client.solvency.coef = 1.25;
+            $scope.showChart=true;
+            console.log($scope.showChart);
+
             window.location.hash  = "#/result";
+
         };
         $scope.checkIndicators = function (client) {
             var result = 0;

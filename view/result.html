@@ -1,10 +1,14 @@
-<div class=" login-screen login-form">
 
-    <h3>Кредитний скоринг за Д. Дюраном</h3>
+<div class=" login-screen login-form" xmlns="http://www.w3.org/1999/html" >
+
+    <h3>Результат кредитного скорингу</h3>
     <div>Клієнт {{client.name}}
         <div style="display: inline" ng-if="client.solvency.result>client.solvency.coef"> кредитоспроможний</div>
         <div style="display: inline" ng-if="client.solvency.result<client.solvency.coef"> некредитоспроможний</div>
         (Коєфіцієнт ={{client.solvency.result}})
     </div>
 
+    <script>showChart=true;</script>
+
 </div>
+
