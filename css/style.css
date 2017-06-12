@@ -122,3 +122,8 @@ input[type=radio]:checked + label {
 td{
     margin: 3px;
 }
+
+.chart {
+    width: 500px;
+    height: 500px;
+}

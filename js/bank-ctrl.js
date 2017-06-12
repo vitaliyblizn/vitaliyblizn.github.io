@@ -1,7 +1,37 @@
 'use strict';
 angular.module('myApp')
-    .controller('bankCtrl', function ($scope, $rootScope) {
+    .controller('bankCtrl',  function ($scope, $rootScope) {
+        $scope.config = {
+            title: 'Products',
+            tooltips: true,
+            labels: false,
+            mouseover: function() {},
+            mouseout: function() {},
+            click: function() {},
+            legend: {
+                display: true,
+                //could be 'left, right'
+                position: 'right'
+            }
+        };
 
+        $scope.data = {
+            series: ['Sales', 'Income'],
+            data: [{
+                x: "Laptops",
+                y: [100, 500, 0],
+                tooltip: "this is tooltip"
+            }, {
+                x: "Desktops",
+                y: [300, 100, 100,1,5]
+            }, {
+                x: "Mobiles",
+                y: [351]
+            }, {
+                x: "Tablets",
+                y: [54, 0, 879]
+            }]
+        };
         var coef = {
             age: 0.01,
             isWoman: 0.4,
@@ -26,10 +56,6 @@ angular.module('myApp')
         initAppIndicators();
         initDefaultClientInfo();
 
-
-
-
-
         $scope.checkDuran = function (client) {
             var result = 0;
             client.age = calculateAge(client.dateBirthday);
@@ -51,7 +77,6 @@ angular.module('myApp')
             client.solvency.coef = 1.25;
             $scope.showChart=true;
             console.log($scope.showChart);
-
             window.location.hash  = "#/result";
 
         };
