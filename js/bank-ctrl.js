@@ -15,23 +15,6 @@ angular.module('myApp')
             }
         };
 
-        $scope.data = {
-            series: ['Sales', 'Income'],
-            data: [{
-                x: "Laptops",
-                y: [100, 500, 0],
-                tooltip: "this is tooltip"
-            }, {
-                x: "Desktops",
-                y: [300, 100, 100,1,5]
-            }, {
-                x: "Mobiles",
-                y: [351]
-            }, {
-                x: "Tablets",
-                y: [54, 0, 879]
-            }]
-        };
         var coef = {
             age: 0.01,
             isWoman: 0.4,
@@ -57,34 +40,133 @@ angular.module('myApp')
         initDefaultClientInfo();
 
         $scope.checkDuran = function (client) {
+            var duranCoef = {
+                sex: {
+                    client : 0,
+                    max: 0
+                },
+                age: {
+                    client : 0,
+                    max: 0
+                },
+                profRisk: {
+                    client : 0,
+                    max: 0
+                },
+                experience: {
+                    client : 0,
+                    max: 0
+                },
+                hasBankAcc: {
+                    client : 0,
+                    max: 0
+                },
+                hasRealty: {
+                    client : 0,
+                    max: 0
+                },
+                hasInsurance: {
+                    client : 0,
+                    max: 0
+                }
+            };
             var result = 0;
             client.age = calculateAge(client.dateBirthday);
             if (client.age > 20) {
+                duranCoef.age.max = coef.maxCount.age;
                 var ageCoefCount = (client.age - 20) * coef.age;
+                duranCoef.age.client = ageCoefCount;
                 result += ageCoefCount > coef.maxCount.age ? coef.maxCount.age : ageCoefCount;
             }
-            if (client.sex == "Woman") result += coef.isWoman;
+            duranCoef.sex.client = 0;
+            if (client.sex == "Woman"){
+                result += coef.isWoman;
+                duranCoef.sex.client = coef.isWoman;
+            }
+            duranCoef.sex.max = coef.isWoman;
             console.log(client.prof);
 
+            duranCoef.profRisk.client = client.prof.risk;
+            duranCoef.profRisk.max = coef.profRisk.low;
             result += client.prof.risk;
             var countExperience = client.experience * coef.experience;
-            result += countExperience > coef.maxCount.experience ? coef.maxCount.experience : countExperience;
-            if(client.hasBankAcc) result += coef.hasBankAcc;
-            if(client.hasRealty) result += coef.hasRealty;
-            if(client.hasInsurance) result += coef.hasInsurance;
+            var countedExperience = countExperience > coef.maxCount.experience ? coef.maxCount.experience : countExperience;
+            result += countedExperience;
+            duranCoef.experience.client = countedExperience;
+            duranCoef.experience.max = coef.maxCount.experience;
+            duranCoef.hasBankAcc.client =0;
+            duranCoef.hasBankAcc.max =coef.hasBankAcc;
+            duranCoef.hasRealty.client =0;
+            duranCoef.hasRealty.max =coef.hasRealty;
+            duranCoef.hasInsurance.client =0;
+            duranCoef.hasInsurance.max =coef.hasInsurance;
+            if(client.hasBankAcc){
+                result += coef.hasBankAcc;
+                duranCoef.hasBankAcc.client = coef.hasBankAcc;
+            }
+            if(client.hasRealty) {
+                result += coef.hasRealty;
+                duranCoef.hasRealty.client =coef.hasRealty;
+            }
+            if(client.hasInsurance) {
+                result += coef.hasInsurance;
+                duranCoef.hasInsurance.client =coef.hasInsurance;
+            }
             client.solvency = {};
             client.solvency.result = result;
             client.solvency.coef = 1.25;
             $scope.showChart=true;
-            console.log($scope.showChart);
+            $scope.data = {
+                series: ['User', 'Max'],
+                data: [{
+                    x: "Стать",
+                    y: [duranCoef.sex.client, duranCoef.sex.max]
+                }, {
+                    x: "Вік",
+                    y: [duranCoef.age.client, duranCoef.age.max]
+                }, {
+                    x: "Професія",
+                    y: [duranCoef.profRisk.client, duranCoef.profRisk.max]
+                }, {
+                    x: "Стаж",
+                    y: [duranCoef.experience.client, duranCoef.experience.max]
+                }, {
+                    x: "Рахунок",
+                    y: [duranCoef.hasBankAcc.client, duranCoef.hasBankAcc.max]
+                }, {
+                    x: "Нерухомість",
+                    y: [duranCoef.hasRealty.client, duranCoef.hasRealty.max]
+                }, {
+                    x: "Страхування",
+                    y: [duranCoef.hasInsurance.client, duranCoef.hasInsurance.max]
+                }]
+            };
             window.location.hash  = "#/result";
 
         };
         $scope.checkIndicators = function (client) {
             var result = 0;
+
+                var dataResult = [];
             client.indicators.forEach(function ($item) {
-                result += $item.weight * $item.chosen.coef;
+                var currentResult = $item.weight * $item.chosen.coef;
+                result += currentResult;
+                console.log($item);
+                var variantMax = 0;
+                $item.variants.forEach(function($item1){
+                    if($item1.coef > variantMax){
+                        variantMax = $item1.coef;
+                    }
+                });
+                var currentData = {
+                    x: $item.name,
+                    y :[currentResult, variantMax*$item.weight]
+                };
+                dataResult.push(currentData)
             });
+            $scope.data = {
+                series: ['User', 'Max'],
+                data: dataResult};
             client.solvency = {};
             client.solvency.result =  result / $scope.maxWeight;
             client.solvency.coef = 0.5;
