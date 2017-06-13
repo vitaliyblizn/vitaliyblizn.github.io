@@ -2,7 +2,7 @@
 angular.module('myApp')
     .controller('bankCtrl',  function ($scope, $rootScope) {
         $scope.config = {
-            title: 'Products',
+            title: 'Result',
             tooltips: true,
             labels: false,
             mouseover: function() {},
@@ -12,7 +12,8 @@ angular.module('myApp')
                 display: true,
                 //could be 'left, right'
                 position: 'right'
-            }
+            },
+            colors: [	'#FF7F50', '#9370DB']
         };
 
         var coef = {
@@ -148,7 +149,7 @@ angular.module('myApp')
             var result = 0;
 
                 var dataResult = [];
-            client.indicators.forEach(function ($item) {
+            client.indicators.forEach(function ($item,ind) {
                 var currentResult = $item.weight * $item.chosen.coef;
                 result += currentResult;
                 console.log($item);
@@ -159,8 +160,10 @@ angular.module('myApp')
                     }
                 });
                 var currentData = {
-                    x: $item.name,
-                    y :[currentResult, variantMax*$item.weight]
+                    x: ind,
+                    // x: $item.name,
+                    y :[currentResult, variantMax*$item.weight],
+                    tooltip: $item.name
                 };
                 dataResult.push(currentData)
             });
